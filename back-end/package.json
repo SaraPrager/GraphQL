@@ -1,0 +1,19 @@
+{
+  "name": "graphql-server",
+  "version": "1.0.0",
+  "description": "A simple GraphQL server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sara Prager",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.23.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
