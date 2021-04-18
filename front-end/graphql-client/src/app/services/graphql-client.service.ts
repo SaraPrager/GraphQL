@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 const URL = 'http://localhost:3000/graphql'
 
@@ -6,11 +7,11 @@ const URL = 'http://localhost:3000/graphql'
   providedIn: 'root'
 })
 export class GraphQLClientService {
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   async sendRequest(query, variables?) {
-    const response = await fetch(URL, {
+    const request = {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -19,7 +20,13 @@ export class GraphQLClientService {
         query,
         variables
       })
-    });
+    };
+
+    if (this.authService.accessToken) {
+      request.headers['authorization'] = `Bearer ${this.authService.accessToken}`;
+    }
+
+    const response = await fetch(URL, request);
 
     const responseBody = await response.json();
     if (responseBody.errors) {

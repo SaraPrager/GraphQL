@@ -23,11 +23,19 @@ const Task = {
 /* Mutations */
 
 const Mutation = {
-    createUser: (root, { input }) => {
+    createUser: (root, { input }, { user }) => {
+        if (!user) {
+            throw new Error('Unauthorized');
+        }
+        console.log(`user: ${JSON.stringify(user)}`);
         users.push(input);
         return input;
     },
-    createTask: (root, { input }) => {
+    createTask: (root, { input }, { user }) => {
+        if (!user) {
+            throw new Error('Unauthorized');
+        }
+        console.log(`user: ${JSON.stringify(user)}`);
         tasks.push(input);
         return input;
     }
