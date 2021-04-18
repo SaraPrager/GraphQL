@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -7,35 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
   displayedColumns: string[] = [ 'id', 'name', 'email', 'description' ];
-  users = [
-    {
-        "id": "1",
-        "name": "User #1",
-        "email": "user1@gmail.com",
-        "description": "User #1 description"
-    },
-    {
-        "id": "2",
-        "name": "User #2",
-        "email": "user2@gmail.com",
-        "description": "User #2 description"
-    },
-    {
-        "id": "3",
-        "name": "User #3",
-        "email": "user3@gmail.com",
-        "description": "User #3 description"
-    },
-    {
-        "id": "4",
-        "name": "User #4",
-        "email": "user4@gmail.com",
-        "description": "User #4 description"
-    }
-  ];
+  users = [];
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.fetchUsers();
+  }
+
+  async fetchUsers() {
+    this.users = await this.usersService.getUsers();
+    /*await this.usersService.getUserByID("3");
+    await this.usersService.getUserTasks("2");*/
   }
 }

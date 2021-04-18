@@ -1,6 +1,10 @@
+# Queries #
+
 type Query {
     message: String
+    task(id: ID!): Task
     tasks: [Task]
+    user(id: ID!): User
     users: [User]
 }
 
@@ -9,6 +13,7 @@ type User {
     name: String
     email: String
     description: String
+    tasks: [Task]
 }
 
 type Task {
@@ -17,4 +22,26 @@ type Task {
     description: String
     assignedTo: User
     createdBy: User
+}
+
+# Mutations #
+
+type Mutation {
+    createUser(input: CreateUserInput): User
+    createTask(input: CreateTaskInput): Task
+}
+
+input CreateUserInput {
+    id: ID!
+    name: String
+    email: String
+    description: String
+}
+
+input CreateTaskInput {
+    id: ID!
+    action: String
+    description: String
+    assignedTo: ID
+    createdBy: ID
 }

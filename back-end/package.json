@@ -9,8 +9,9 @@
   "author": "Sara Prager",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
     "apollo-server-express": "^2.23.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "graphql": "^15.5.0"
   },
   "devDependencies": {

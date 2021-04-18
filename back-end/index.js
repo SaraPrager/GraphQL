@@ -1,5 +1,5 @@
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 // const jwt = require('jsonwebtoken');
 // const expressJwt = require('express-jwt');
 // const jwtSecret = Buffer.from('Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt', 'base64');
@@ -10,12 +10,13 @@ const port = 3000;
 
 // Express server
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 /*
-app.use(cors(), expressJwt({
+app.use(expressJwt({
   secret: jwtSecret,
   credentialsRequired: false
 }));

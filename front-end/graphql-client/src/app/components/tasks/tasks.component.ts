@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -7,39 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TasksComponent implements OnInit {
   displayedColumns: string[] = [ 'id', 'action', 'description', 'assignedTo', 'createdBy' ];
-  tasks = [
-    {
-        "id": "1",
-        "action": "Fake Task #1",
-        "description": "This is a fake task #1",
-        "assignedTo": "1",
-        "createdBy": "2"
-    },
-    {
-        "id": "2",
-        "action": "Fake Task #2",
-        "description": "This is a fake task #2",
-        "assignedTo": "2",
-        "createdBy": "3"
-    },
-    {
-        "id": "3",
-        "action": "Fake Task #3",
-        "description": "This is a fake task #3",
-        "assignedTo": "3",
-        "createdBy": "4"
-    },
-    {
-        "id": "4",
-        "action": "Fake Task #4",
-        "description": "This is a fake task #4",
-        "assignedTo": "4",
-        "createdBy": "1"
-    }
-  ];
+  tasks = [];
 
-  constructor() { }
+  constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
+    this.fetchTasks();
+  }
+
+  async fetchTasks() {
+    this.tasks = await this.tasksService.getTasks();
+    /*
+    const newTask = await this.tasksService.createTask({
+      id: '6',
+      action: 'Fake task #6',
+      description: 'Fake desc $6',
+      assignedTo: '1',
+      createdBy: '1'
+    });
+
+    console.log(`New task: ${JSON.stringify(newTask)}`);
+    */
   }
 }
