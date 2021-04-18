@@ -1,0 +1,43 @@
+.gc-toolbar {
+    height: 10vh;
+    padding-right: 2%;
+}
+
+.gc-spacer {
+    flex: 1 1 auto;
+}
+
+.gc-app-name {
+    font-size: 1rem;
+}
+
+.gc-top-item {
+    padding-right: 1%;
+}
+
+.gc-account-name {
+    font-size: 0.8rem;
+    padding-right: 1%;
+}
+
+.gc-sidebar-label {
+    font-size: 0.8rem;
+    padding-left: 7%;
+}
+
+.gc-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+}
+
+.gc-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 5vh;
+}

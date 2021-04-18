@@ -1,0 +1,47 @@
+<mat-toolbar class="gc-toolbar">
+    <button *ngIf="isLoggedIn$ | async" mat-icon-button>
+      <mat-icon (click)="onToggleSidebar()">menu</mat-icon>
+    </button>
+    <span class="gc-app-name"> {{ appName }} </span>
+    <span class="gc-spacer"></span>
+    <ng-container class="desktop-only">
+      <span *ngIf="(user$ | async) as user" class="gc-account-name"> {{ user.name }} </span>
+    </ng-container>
+    <ng-container *ngFor="let icon of headerIcons">
+      <ng-container [ngSwitch]="icon.name">
+        <ng-container *ngSwitchCase="'login'">
+          <button *ngIf="!(isLoggedIn$ | async)" mat-icon-button class="gc-top-item" (click)="onLogin()">
+            <mat-icon>{{ icon.name }}</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="'logout'">
+          <button *ngIf="isLoggedIn$ | async" mat-icon-button class="gc-top-item" (click)="onLogout()">
+            <mat-icon>{{ icon.name }}</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <button mat-icon-button class="gc-top-item" [routerLink]="[icon.url]">
+            <mat-icon>{{ icon.name }}</mat-icon>
+          </button>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav *ngIf="isLoggedIn$ | async" #sidenav class="gc-sidenav">
+      <mat-nav-list>
+        <a *ngFor="let link of sidebarLinks" mat-list-item [routerLink]="[link.url]">
+          <mat-icon>{{ link.icon }}</mat-icon>
+          <span class="gc-sidebar-label"> {{ link.label }} </span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="gc-sidenav-content">
+        <ng-content></ng-content>
+      </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<footer class="gc-footer">
+    <span> {{ copyrightText }} </span>
+</footer>

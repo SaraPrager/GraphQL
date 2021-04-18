@@ -1,0 +1,6 @@
+<ng-container *ngIf="user$ | async as user; else unauthMsg">
+    <p> Welcome {{ user.name }} </p>
+</ng-container>
+<ng-template #unauthMsg>
+    <p> Please sign in </p>
+</ng-template>
