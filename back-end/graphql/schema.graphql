@@ -1,0 +1,20 @@
+type Query {
+    message: String
+    tasks: [Task]
+    users: [User]
+}
+
+type User {
+    id: ID!
+    name: String
+    email: String
+    description: String
+}
+
+type Task {
+    id: ID!
+    action: String
+    description: String
+    assignedTo: User
+    createdBy: User
+}
