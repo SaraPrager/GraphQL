@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
@@ -42,8 +43,24 @@ app.post('/login', (req, res) => {
 // Apollo Server
 const typeDefs = gql(fs.readFileSync('./graphql/schema.graphql', { encoding: 'utf8' }));
 const resolvers = require('./graphql/resolvers');
-const context = ({ req }) => ( { user: req.user && users.find(user => user.id === req.user.sub) });
+const context = ({ req, connection }) => {
+  let loggedInUser;
+  if (req?.user) {
+    loggedInUser = req.user.sub;
+  }
+  if (connection?.context?.accessToken) {
+    loggedInUser = jwt.verify(connection.context.accessToken, jwtSecret).sub;
+  }
+
+  if (loggedInUser) {
+    return { user: users.find(user => user.id === loggedInUser) };
+  }
+
+  return {};
+};
 const apolloServer = new ApolloServer({ typeDefs, resolvers, context });
+const httpServer = http.createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 
-app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
+httpServer.listen(port, () => console.log(`Listening at http://localhost:${port}`));

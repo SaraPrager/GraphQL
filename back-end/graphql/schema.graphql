@@ -45,3 +45,10 @@ input CreateTaskInput {
     assignedTo: ID
     createdBy: ID
 }
+
+# Subscriptions #
+
+type Subscription {
+    taskAdded: Task
+    userAdded: User
+}

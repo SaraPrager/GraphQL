@@ -1,5 +1,13 @@
+<h4>Existing Tasks</h4>
 <ul>
     <li *ngFor="let task of tasks | async">
       {{ task.action }}
     </li>
+</ul>
+
+<h4>New Tasks</h4>
+<ul>
+  <li *ngFor="let newTask of newTasks">
+    {{ newTask.action }}
+  </li>
 </ul>

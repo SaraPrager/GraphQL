@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Apollo, gql } from 'apollo-angular';
@@ -38,13 +38,25 @@ const CREATE_TASK = gql`
   ${TASK_FRAGMENT}
 `;
 
+// Subscription
+const TASK_ADDED_SUBSCRIPTION = gql`
+  subscription {
+    taskAdded {
+      action
+    }
+  }
+`;
+
 @Component({
   selector: 'app-apollo-client-demo',
   templateUrl: './apollo-client-demo.component.html',
   styleUrls: ['./apollo-client-demo.component.css']
 })
-export class ApolloClientDemoComponent implements OnInit {
+export class ApolloClientDemoComponent implements OnInit, OnDestroy {
   tasks: Observable<any>;
+  newTasks: { action: string }[] = [];
+  subscription: any;
+
   constructor(private apollo: Apollo) { }
 
   // apollo.query({ query, variales })
@@ -54,9 +66,24 @@ export class ApolloClientDemoComponent implements OnInit {
   ngOnInit(): void {
    this.fetchTasks();
    this.createTask();
+   this.subscribeToNewTasks();
+  }
+  
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   fetchTasks() {
+    this.tasks = this.apollo.query({
+      query: GET_TASKS,
+      // Configure cache policy
+      fetchPolicy: 'cache-first',
+      // Polling:
+      // pollInterval: 500,
+    }).pipe(map((result: any) => result?.data?.tasks));
+    
+    // Watch
+    /*
     this.tasks = this.apollo
     .watchQuery({
       query: GET_TASKS,
@@ -66,6 +93,7 @@ export class ApolloClientDemoComponent implements OnInit {
       // pollInterval: 500,
     })
     .valueChanges.pipe(map((result: any) => result?.data?.tasks));
+    */
   }
 
   createTask() {
@@ -82,7 +110,18 @@ export class ApolloClientDemoComponent implements OnInit {
         cache.writeQuery({ query: GET_TASKS, data })
       }*/
     }).subscribe(response => {
-      console.log(`response: ${JSON.stringify(response)}`);
+      console.log(`mutation response: ${JSON.stringify(response)}`);
     })
+  }
+
+  subscribeToNewTasks() {
+    const graphqlSubscription = this.apollo.subscribe( { query: TASK_ADDED_SUBSCRIPTION });
+    this.subscription = graphqlSubscription.subscribe((response: any) => {
+      console.log(`subscribtion response: ${JSON.stringify(response)}`);
+      const taskResponse = response?.data?.taskAdded;
+      if (taskResponse) {
+        this.newTasks.push(taskResponse);
+      }
+    });
   }
 }

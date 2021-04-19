@@ -1,5 +1,12 @@
 const tasks = require('../data/tasks.json');
 const users = require('../data/users.json');
+const { PubSub } = require('graphql-subscriptions');
+const pubSub = new PubSub();
+
+const TOPICS = {
+    TASK_ADDED: 'TASK_ADDED',
+    USER_ADDED: 'USER_ADDED'
+};
 
 /* Queries */
 
@@ -27,8 +34,8 @@ const Mutation = {
         if (!user) {
             throw new Error('Unauthorized');
         }
-        console.log(`user: ${JSON.stringify(user)}`);
         users.push(input);
+        pubSub.publish(TOPICS.USER_ADDED, { userAdded: input });
         return input;
     },
     createTask: (root, { input }, { user }) => {
@@ -36,10 +43,26 @@ const Mutation = {
         /*if (!user) {
             throw new Error('Unauthorized');
         }*/
-        console.log(`user: ${JSON.stringify(user)}`);
         tasks.push(input);
+        pubSub.publish(TOPICS.TASK_ADDED, { taskAdded: input });
         return input;
     }
 };
 
-module.exports = { Query, User, Task, Mutation };
+/* Subscriptions */
+
+const Subscription = {
+    taskAdded: {
+        subscribe: (_root, _args, { user }) => {
+            /*if (!user) {
+                throw new Error('Unauthorized');
+            }*/
+            return pubSub.asyncIterator(TOPICS.TASK_ADDED);
+        }
+    },
+    userAdded: {
+        subscribe: () => pubSub.asyncIterator(TOPICS.USER_ADDED)
+    }
+};
+
+module.exports = { Query, User, Task, Mutation, Subscription };
