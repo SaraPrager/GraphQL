@@ -35,14 +35,14 @@ app.post('/login', (req, res) => {
     res.sendStatus(401);
     return;
   }
-  const token = jwt.sign({ sub: 'fake_user_id' }, jwtSecret);
+  const token = jwt.sign({ sub: '5' }, jwtSecret);
   res.send({ token });
 });
 
 // Apollo Server
 const typeDefs = gql(fs.readFileSync('./graphql/schema.graphql', { encoding: 'utf8' }));
 const resolvers = require('./graphql/resolvers');
-const context = ({ req }) => ( { user: req.user && users.find(req.user.sub) });
+const context = ({ req }) => ( { user: req.user && users.find(user => user.id === req.user.sub) });
 const apolloServer = new ApolloServer({ typeDefs, resolvers, context });
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 

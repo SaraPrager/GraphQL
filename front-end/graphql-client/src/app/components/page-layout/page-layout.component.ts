@@ -21,6 +21,7 @@ export class PageLayoutComponent implements OnInit {
   sidebarLinks: { label: string, url: string, icon: string }[] = [
     { label: 'Users', url: '/users', icon: 'people'},
     { label: 'Tasks', url: '/tasks', icon: 'task'},
+    { label: 'Apollo Client', url: '/demo', icon: 'preview'},
     { label: 'Accounting Log', url: '/', icon: 'edit'},
   ];
   isLoggedIn$: Observable<boolean>;

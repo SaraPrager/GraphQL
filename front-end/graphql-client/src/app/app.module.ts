@@ -13,6 +13,9 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
 import { TasksComponent } from './components/tasks/tasks.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ApolloClientDemoComponent } from './components/apollo-client-demo/apollo-client-demo.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
     PageLayoutComponent,
     HomeComponent,
     UsersComponent,
-    TasksComponent
+    TasksComponent,
+    ApolloClientDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,9 @@ import { TasksComponent } from './components/tasks/tasks.component';
     MatSidenavModule,
     MatButtonModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

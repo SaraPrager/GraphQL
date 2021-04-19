@@ -22,5 +22,11 @@
         "name": "User #4",
         "email": "user4@gmail.com",
         "description": "User #4 description"
+    },
+    {
+        "id": "5",
+        "name": "fake_account",
+        "email": "fake_account@gmail.com",
+        "description": "Fake user for Authentication"
     }
 ]

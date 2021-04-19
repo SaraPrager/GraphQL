@@ -18,16 +18,15 @@ export class TasksComponent implements OnInit {
 
   async fetchTasks() {
     this.tasks = await this.tasksService.getTasks();
-    /*
-    const newTask = await this.tasksService.createTask({
-      id: '6',
-      action: 'Fake task #6',
-      description: 'Fake desc $6',
+    
+    /*const newTask = await this.tasksService.createTask({
+      id: '5',
+      action: 'Fake task #5',
+      description: 'Fake desc #5',
       assignedTo: '1',
       createdBy: '1'
     });
 
-    console.log(`New task: ${JSON.stringify(newTask)}`);
-    */
+    console.log(`New task: ${JSON.stringify(newTask)}`);*/
   }
 }

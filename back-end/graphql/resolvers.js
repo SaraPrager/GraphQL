@@ -32,9 +32,10 @@ const Mutation = {
         return input;
     },
     createTask: (root, { input }, { user }) => {
-        if (!user) {
+        // Add authorization
+        /*if (!user) {
             throw new Error('Unauthorized');
-        }
+        }*/
         console.log(`user: ${JSON.stringify(user)}`);
         tasks.push(input);
         return input;
